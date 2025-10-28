@@ -106,6 +106,7 @@ def load_kb_from_mysql(debug: bool=False):
 
 # --------- INFERENCIA ----------
 
+
     # 1) Reglas sobre mensaje (externo)
     if errmsg:
         for r in rules:
