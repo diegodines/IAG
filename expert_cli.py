@@ -107,6 +107,25 @@ def load_kb_from_mysql(debug: bool=False):
 # --------- INFERENCIA ----------
 
 
+def infer(code: str,
+          errmsg: Optional[str],
+          error_types: Dict[int, ErrorType],
+          rules: List[Rule],
+          debug: bool=False,
+          enable_runtime: bool=True) -> List[Dict[str, Any]]:
+
+    findings: List[Dict[str, Any]] = []
+
+    if debug:
+        print(f"[DEBUG] len(code)={len(code)}")
+        if code:
+            prev = code.replace("\r", "\\r").replace("\n", "\\n")
+            print(f"[DEBUG] code preview: {prev[:140]}")
+        print(f"[DEBUG] errmsg: {errmsg!r}")
+        print(f"[DEBUG] runtime_enabled={enable_runtime}")
+
+
+
     # 1) Reglas sobre mensaje (externo)
     if errmsg:
         for r in rules:
