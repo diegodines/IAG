@@ -1,5 +1,6 @@
-# -*- coding: utf-8 -*-
+
 """
+expert_cli.py — Sistema Basado en Reglas con Base de Conocimiento en MySQL.
 
 Uso:
   python expert_cli.py ejemplo.py
@@ -105,8 +106,6 @@ def load_kb_from_mysql(debug: bool=False):
     return {et.id: et for et in ets}, rules
 
 # --------- INFERENCIA ----------
-
-
 def infer(code: str,
           errmsg: Optional[str],
           error_types: Dict[int, ErrorType],
@@ -123,8 +122,6 @@ def infer(code: str,
             print(f"[DEBUG] code preview: {prev[:140]}")
         print(f"[DEBUG] errmsg: {errmsg!r}")
         print(f"[DEBUG] runtime_enabled={enable_runtime}")
-
-
 
     # 1) Reglas sobre mensaje (externo)
     if errmsg:
@@ -248,13 +245,15 @@ def main():
               "  3) \"if x > 0`n    print('ok')\" | python expert_cli.py\n"
               "  4) python expert_cli.py --error \"TypeError: can't concatenate str and int\"")
         sys.exit(1)
-    
+
     error_types, rules = load_kb_from_mysql(debug=args.debug)
     results = infer(code, errmsg, error_types, rules,
                     debug=args.debug, enable_runtime=not args.no_runtime)
+
     if not results:
-            print("No se detectaron errores según las reglas actuales.")
-            sys.exit(0)
+        print("No se detectaron errores según las reglas actuales.")
+        sys.exit(0)
+
     print("=== Reporte de Diagnóstico ===")
     for i, r in enumerate(results, 1):
         print(f"\n#{i}. [{r['error']}] {r['diagnostico']}")
@@ -263,5 +262,5 @@ def main():
         print(f" Sugerencia:  {r['sugerencia']}")
         print(f" Evidencia:   {r['evidencia']}")
 
-if __name__ == "_main_":
+if __name__ == "__main__":
     main()
