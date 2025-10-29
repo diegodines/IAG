@@ -253,8 +253,4 @@ def main():
     results = infer(code, errmsg, error_types, rules,
                     debug=args.debug, enable_runtime=not args.no_runtime)
 
- if not results:
-        print("No se detectaron errores según las reglas actuales.")
-        sys.exit(0)
-
 
