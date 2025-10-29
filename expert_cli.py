@@ -219,37 +219,3 @@ def build_finding(rule: Rule, et: ErrorType, evidence: str) -> Dict[str, Any]:
     }
 
 # --------- IO/CLI ----------
-
-def read_code_from_stdin_if_any() -> str:
-    return "" if sys.stdin.isatty() else sys.stdin.read()
-
-def main():
-    ap = argparse.ArgumentParser(description="Diagnóstico de errores Python (educativo) — MySQL")
-    ap.add_argument("file", nargs="?", help="Archivo .py a analizar")
-    ap.add_argument("--error", "-e", help="Mensaje de error del intérprete (opcional)")
-    ap.add_argument("--debug", action="store_true", help="Mostrar info de depuración")
-    ap.add_argument("--no-runtime", action="store_true",
-                    help="Desactiva la ejecución segura (no captura errores de runtime).")
-    args = ap.parse_args()
-
-    code = ""
-    if args.file:
-        with open(args.file, "r", encoding="utf-8") as f:
-            code = f.read()
-    else:
-        code = read_code_from_stdin_if_any()
-
-    errmsg = (args.error or "").strip()
-
-    if not code and not errmsg:
-        print(" No recibí código ni mensaje de error.\n"
-              "Modos de uso:\n"
-              "  1) python expert_cli.py tu_archivo.py\n"
-              "  2) @\"<código>\"@ | python expert_cli.py   (here-string de PowerShell)\n"
-              "  3) \"if x > 0`n    print('ok')\" | python expert_cli.py\n"
-              "  4) python expert_cli.py --error \"TypeError: can't concatenate str and int\"")
-        sys.exit(1)
-
-    error_types, rules = load_kb_from_mysql(debug=args.debug)
-    results = infer(code, errmsg, error_types, rules,
-                    debug=args.debug, enable_runtime=not args.no_runtime)
