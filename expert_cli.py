@@ -252,5 +252,16 @@ def main():
     error_types, rules = load_kb_from_mysql(debug=args.debug)
     results = infer(code, errmsg, error_types, rules,
                     debug=args.debug, enable_runtime=not args.no_runtime)
+    if not results:
+            print("No se detectaron errores según las reglas actuales.")
+            sys.exit(0)
+    print("=== Reporte de Diagnóstico ===")
+    for i, r in enumerate(results, 1):
+        print(f"\n#{i}. [{r['error']}] {r['diagnostico']}")
+        print(f" Categoría:  {r['categoria']}")
+        print(f" Explicación: {r['explicacion']}")
+        print(f" Sugerencia:  {r['sugerencia']}")
+        print(f" Evidencia:   {r['evidencia']}")
 
-
+if _name_ == "_main_":
+    main()
