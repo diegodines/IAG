@@ -263,5 +263,5 @@ def main():
         print(f" Sugerencia:  {r['sugerencia']}")
         print(f" Evidencia:   {r['evidencia']}")
 
-if _name_ == "_main_":
+if __name__ == "_main_":
     main()
