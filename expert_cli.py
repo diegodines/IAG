@@ -219,3 +219,14 @@ def build_finding(rule: Rule, et: ErrorType, evidence: str) -> Dict[str, Any]:
     }
 
 # --------- IO/CLI ----------
+def read_code_from_stdin_if_any() -> str:
+    return "" if sys.stdin.isatty() else sys.stdin.read()
+
+def main():
+    ap = argparse.ArgumentParser(description="Diagnóstico de errores Python (educativo) — MySQL")
+    ap.add_argument("file", nargs="?", help="Archivo .py a analizar")
+    ap.add_argument("--error", "-e", help="Mensaje de error del intérprete (opcional)")
+    ap.add_argument("--debug", action="store_true", help="Mostrar info de depuración")
+    ap.add_argument("--no-runtime", action="store_true",
+                    help="Desactiva la ejecución segura (no captura errores de runtime).")
+    args = ap.parse_args()
