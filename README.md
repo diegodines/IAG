@@ -1,4 +1,4 @@
-Descripción General
+### Descripción General
 
 Este sistema experto analiza código Python y detecta errores comunes de **sintaxis** y **semántica**.  
 Utiliza una **Base de Conocimiento en MySQL** que contiene reglas y tipos de error, junto con explicaciones y sugerencias educativas.
